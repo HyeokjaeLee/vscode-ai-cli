@@ -1,0 +1,11 @@
+{
+  "name": "vscode-ai-cli-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev:ui": "pnpm --filter webview-ui run watch"
+  }
+} 
