@@ -10,7 +10,7 @@ const path = require('path');
 /** @type WebpackConfig */
 const extensionConfig = {
   target: 'node', // VS Code extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
-	mode: 'development', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
+	mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
 
   entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
   output: {
@@ -46,4 +46,43 @@ const extensionConfig = {
   },
 };
 
-module.exports = [ extensionConfig ];
+/** @type WebpackConfig */
+const webviewConfig = {
+  target: 'web',
+  mode: 'development',
+  entry: './src/webview/index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'webview.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                config: path.resolve(__dirname, 'postcss.config.js'),
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  devtool: 'nosources-source-map',
+};
+
+module.exports = [ extensionConfig, webviewConfig ];

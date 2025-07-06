@@ -1,11 +1,67 @@
 {
-  "name": "vscode-ai-cli-monorepo",
-  "private": true,
-  "workspaces": [
-    "packages/*"
+  "name": "ai-cli",
+  "displayName": "ai-cli",
+  "description": "ai-cli",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
   ],
+  "activationEvents": [
+    "onCommand:ai-cli.start"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ai-cli.start",
+        "title": "Start AI CLI"
+      }
+    ]
+  },
   "scripts": {
-    "build": "pnpm --filter webview-ui build && pnpm --filter ai-cli build",
-    "dev:ui": "pnpm --filter webview-ui run watch"
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.400.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "~20.19.4",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@types/vscode": "^1.101.0",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "autoprefixer": "^10.4.21",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.30.1",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.1.1",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^4.1.11",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   }
-} 
+}

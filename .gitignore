@@ -1,7 +1,5 @@
-# node_modules, 빌드, 환경파일 등 무시
-node_modules/
-dist/
-.env
-.DS_Store
-*.log
-pnpm-lock.yaml 
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
